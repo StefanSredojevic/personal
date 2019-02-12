@@ -1,0 +1,21 @@
+
+;; ----- smex-history -----
+(
+ package-install
+ package-refresh-contents
+ load-file
+ customize-themes
+ customize
+ newline
+ cd
+)
+
+;; ----- smex-data -----
+(
+ (load-file . 2)
+ (newline . 1)
+ (customize . 1)
+ (customize-themes . 1)
+ (package-install . 2)
+ (package-refresh-contents . 1)
+)
