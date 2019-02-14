@@ -38,13 +38,13 @@
 ;;Rainbow mode package
 (use-package rainbow-mode
   :ensure t
-  :init (rainbow-mode 1))
+  :init (add-hook 'prog-mode-hook 'rainbow-mode)) 
 
 ;;Switch window package
 (use-package switch-window
   :ensure t
   :config
-  (setq switch-window-input-style 'minibuffer)
+  (setq switch-window-inpeut-style 'minibuffer)
   (setq switch-window-increase 4)
   (setq switch-window-threshold 2)
   (setq switch-window-shortcut-style 'qwerty)
@@ -59,6 +59,8 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 
+;;(add-hook 'org-mode-hook 'org-indent-mode)
+
 ;;Hungy word package
 (use-package hungry-delete
   :ensure t
@@ -67,8 +69,7 @@
 ;;Rainbow delimiters package
 (use-package rainbow-delimiters
   :ensure t
-  :init
-  (rainbow-delimiters-mode 1))
+  :init (add-hook 'prog-mode-hook 'rainbow-delimiters-moden))
 
 ;;Dashboard package
 (use-package dashboard
@@ -99,6 +100,67 @@
   :config
   (require 'company)
   (add-to-list 'company-backends 'company-irony))
+
+;;Spaceline package
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (setq powerline-default-separator (quote arrow))
+  (spaceline-spacemacs-theme))
+
+;;Diminish package 
+(use-package diminish
+  :ensure t
+  :init
+  (diminish 'hungry-delete-mode)
+  (diminish 'beacon-mode)
+  (diminish 'subword-mode)
+  (diminish 'rainbow-mode)
+  (diminish 'which-key-mode))
+
+;;Dmenu package
+(use-package dmenu
+  :ensure t
+  :bind
+  ("M-SPC" . 'dmenu))
+
+;;Popup kill ring package
+(use-package popup-kill-ring
+  :ensure t
+  :bind ("M-y" . popup-kill-ring))
+
+;;Swiper package
+(use-package swiper
+	    :ensure t
+	    :bind ("C-r" . swiper))
+
+;;Mark multiple package
+(use-package mark-multiple
+  :ensure t
+  :bind ("C-c q" . 'mark-next-like-this))
+
+;;Expand region package
+(use-package expand-region
+  :ensure t
+  :bind ("C-q" . er/expand-region))
+
+;;Smex package
+(use-package smex
+  :ensure t
+  :init
+  (smex-initialize))
+
+;;Yasnippet
+(use-package yasnippet
+  :ensure t
+  :config
+  (use-package yasnippet-snippets
+    :ensure t)
+  (yas-reload-all))
+
+;;(add-hook 'verilog-mode-hook 'yas-minor-mode) [CONFIGURE THIS]
+
 
 ;;;;Irony package [WONT WORK]
 ;;(use-package irony
@@ -142,7 +204,7 @@
 ;;Find .emacs file (EDIT FOR LINUX)
 (defun find-dot-emacs ()
   (interactive)
-  (find-file "C:/Users/Stefan/AppData/Roaming/.emacs"))
+  (find-file "C:/Users/ssredojevic/AppData/Roaming/.emacs"))
 
 ;;Split and follow horizontally
 (defun split-and-follow-horizontally ()
@@ -296,15 +358,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes (quote (gruber-darker)))
  '(custom-safe-themes
    (quote
     ("47ec21abaa6642fefec1b7ace282221574c2dd7ef7715c099af5629926eb4fd7" default)))
+ '(menu-bar-mode t)
  '(package-selected-packages
    (quote
-    (company-irony company dashboard rainbow-delimiters sudo-edit hungry-delete org-bullets switch-window rainbow-mode avy magit org ido-vertical-mode beacon which-key use-package))))
+    (yasnippet-snippets yasnippet expand-region mark-multiple swiper popup-kill-ring pop-up-kill-ring dmenu diminish spaceline company-irony company dashboard rainbow-delimiters hungry-delete org-bullets switch-window rainbow-mode avy beacon which-key use-package smex ido-vertical-mode gruber-darker-theme evil)))
+ '(tool-bar-mode nil))
 
 ;;Normal tab
 (global-set-key (kbd "<C-tab>") 'tab-to-tab-stop)
@@ -688,5 +750,3 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-
