@@ -1,6 +1,7 @@
-;; =============================================================================
-;; STEFANS CUSTOM
-;; =============================================================================
+
+;;==========================================================
+;;    PACKAGE INIT
+;;==========================================================
 
 ;;Package init
 (require 'package)
@@ -17,6 +18,9 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;;==========================================================
+;;    ACTIVE PACKAGE
+;;==========================================================
 ;;Which key package
 (use-package which-key
   :ensure t
@@ -149,7 +153,12 @@
 (use-package smex
   :ensure t
   :init
-  (smex-initialize))
+  (smex-initialize)
+  :bind
+  ("M-x" . 'smex)
+  ("M-X" . 'smex-major-mode-commands)
+  :config
+  (setq ido-vertical-define-keys 'C-n-and-C-p-only)) 
 
 ;;Yasnippet
 (use-package yasnippet
@@ -161,29 +170,9 @@
 
 ;;(add-hook 'verilog-mode-hook 'yas-minor-mode) [CONFIGURE THIS]
 
-
-;;;;Irony package [WONT WORK]
-;;(use-package irony
-;;  :ensure t
-;;  :config
-;;  (add-hook 'c++-mode-hook 'irony-mode)
-;;  (add-hook 'c-mode-hook 'irony-mode)
-;;  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
-;;
-;;(with-eval-after-load 'company
-;;  (add-hook 'c++-mode-hook 'company-mode)
-;;  (add-hook 'c-mode-hook 'company-mode))
-
-;;Sudo edit package
-;;(use-package sudo-edit
-;;  :ensure t
-;;  :bind ("s-e" . sudo-edit))
-
-;;Config visit function
-;;(defun config-visit ()
-;;  (interactive)
-;;  (find-file "~/.emacs.d/config.org"))
-;;(global-set-key (kbd "C-c e") 'config-visit)
+;;==========================================================
+;;    MINOR CONFIGURATIONS
+;;==========================================================
 
 ;;Auto close parenthesies
 (setq electric-pair-pairs '(
@@ -232,18 +221,6 @@
 (global-set-key (kbd "M-<") 'beginning-of-buffer)
 (global-set-key (kbd "M->") 'end-of-buffer)
 
-;;Set terminal
-;;(defvar my-term-shell "/bin/bash")
-;;(defadvice ansi-term (before force-bash)
-;;  (interactive (list my-term-shell)))
-;;(ad-active 'asni-term)
-;;(global-set-key (kbd "<s-return>") 'ansi-term)
-
-;;Set org template
-;;(setq org-src-window-setup 'current-window)
-;;(add-to-list 'org-structure-template-alist
-;;	     '("el" "#+BEGIN_SRC emacs-lisp\n?\n"))
-
 ;;Remove YES instead use Y
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -270,11 +247,6 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 (ido-vertical-mode 1)
-(require 'smex) ; Not needed if you use package.el
-(smex-initialize) ; Can be omitted. This might cause a (minimal) delay when Smex is auto-initialized on its first run.
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(setq ido-vertical-define-keys 'C-n-and-C-p-only)
 
 ;;Remove scroll bar
 (scroll-bar-mode -1)
@@ -320,6 +292,8 @@
   (forward-line -2)
   (indent-according-to-mode))
 
+(global-set-key [(meta shift up)]  'move-line-up)
+
 ;;Move line down
 (defun move-line-down ()
   "Move down the current line."
@@ -328,6 +302,8 @@
   (transpose-lines 1)
   (forward-line -1)
   (indent-according-to-mode))
+
+(global-set-key [(meta shift down)]  'move-line-down)
 
 ;;Copy line below
 (defun copy-line-below ()
@@ -342,8 +318,6 @@
   (yank)
   (previous-line 1))
 
-(global-set-key [(meta shift up)]  'move-line-up)
-(global-set-key [(meta shift down)]  'move-line-down)
 (global-set-key [(control meta z)] 'copy-line-below)
 
 ;;Save all files and exit emacs
@@ -370,12 +344,10 @@
 
 ;;Normal tab
 (global-set-key (kbd "<C-tab>") 'tab-to-tab-stop)
-;;(defun 'tab-to-tab-stop ()
-;;  "Add normal space"
-;;  (tab-to-tab-stop))
 
-
-;; ********** VERILOG ALIGN **********
+;;==========================================================
+;;    VERILOG ALIGN 
+;;==========================================================
 
 ;;Align keys
 (global-set-key [(control meta \[)] 'align-regexp)
@@ -750,3 +722,42 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;;==========================================================
+;;    NOT USED 
+;;==========================================================
+
+;;Set terminal
+;;(defvar my-term-shell "/bin/bash")
+;;(defadvice ansi-term (before force-bash)
+;;  (interactive (list my-term-shell)))
+;;(ad-active 'asni-term)
+;;(global-set-key (kbd "<s-return>") 'ansi-term)
+
+;;Set org template
+;;(setq org-src-window-setup 'current-window)
+;;(add-to-list 'org-structure-template-alist
+;;	     '("el" "#+BEGIN_SRC emacs-lisp\n?\n"))
+
+;;Config visit function
+;;(defun config-visit ()
+;;  (interactive)
+;;  (find-file "~/.emacs.d/config.org"))
+;;(global-set-key (kbd "C-c e") 'config-visit)
+
+;;;;Irony package [WONT WORK]
+;;(use-package irony
+;;  :ensure t
+;;  :config
+;;  (add-hook 'c++-mode-hook 'irony-mode)
+;;  (add-hook 'c-mode-hook 'irony-mode)
+;;  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+;;
+;;(with-eval-after-load 'company
+;;  (add-hook 'c++-mode-hook 'company-mode)
+;;  (add-hook 'c-mode-hook 'company-mode))
+
+;;Sudo edit package
+;;(use-package sudo-edit
+;;  :ensure t
+;;  :bind ("s-e" . sudo-edit))
