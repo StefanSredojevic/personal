@@ -29,6 +29,137 @@
   :init
   (beacon-mode 1))
 
+;;Avy package
+(use-package avy
+  :ensure t
+  :bind
+  ("M-s" . avy-goto-char))
+
+;;Rainbow mode package
+(use-package rainbow-mode
+  :ensure t
+  :init (rainbow-mode 1))
+
+;;Switch window package
+(use-package switch-window
+  :ensure t
+  :config
+  (setq switch-window-input-style 'minibuffer)
+  (setq switch-window-increase 4)
+  (setq switch-window-threshold 2)
+  (setq switch-window-shortcut-style 'qwerty)
+  (setq switch-window-qwerty-shortcuts
+	'("a" "s" "d" "f" "h" "j" "k" "l"))
+  :bind
+  ([remap other-window] . switch-window))
+
+;;Org package org-bullets
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+
+;;Hungy word package
+(use-package hungry-delete
+  :ensure t
+  :config (global-hungry-delete-mode))
+
+;;Rainbow delimiters package
+(use-package rainbow-delimiters
+  :ensure t
+  :init
+  (rainbow-delimiters-mode 1))
+
+;;Dashboard package
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '((recents . 10)))
+  (setq dashboard-banner-logo-title "Sredojevic is the best !"))
+
+;;Autocomplete package
+(use-package company
+  :ensure t
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 3))
+
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous))
+
+;;Company irony package
+(use-package company-irony
+  :ensure t
+  :config
+  (require 'company)
+  (add-to-list 'company-backends 'company-irony))
+
+;;;;Irony package [WONT WORK]
+;;(use-package irony
+;;  :ensure t
+;;  :config
+;;  (add-hook 'c++-mode-hook 'irony-mode)
+;;  (add-hook 'c-mode-hook 'irony-mode)
+;;  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+;;
+;;(with-eval-after-load 'company
+;;  (add-hook 'c++-mode-hook 'company-mode)
+;;  (add-hook 'c-mode-hook 'company-mode))
+
+;;Sudo edit package
+;;(use-package sudo-edit
+;;  :ensure t
+;;  :bind ("s-e" . sudo-edit))
+
+;;Config visit function
+;;(defun config-visit ()
+;;  (interactive)
+;;  (find-file "~/.emacs.d/config.org"))
+;;(global-set-key (kbd "C-c e") 'config-visit)
+
+;;Auto close parenthesies
+(setq electric-pair-pairs '(
+			    (?\( . ?\))
+			    (?\[ . ?\])
+			    (?\" . ?\")
+			    (?\{ . ?\})
+			    ))
+(electric-pair-mode t)
+
+;;Kill whole word
+(defun kill-whole-word ()
+  (interactive)
+  (backward-word)
+  (kill-word 1))
+(global-set-key (kbd "C-c w w") 'kill-whole-word)
+
+;;Find .emacs file (EDIT FOR LINUX)
+(defun find-dot-emacs ()
+  (interactive)
+  (find-file "C:/Users/Stefan/AppData/Roaming/.emacs"))
+
+;;Split and follow horizontally
+(defun split-and-follow-horizontally ()
+  (interactive)
+  (split-window-below)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+
+;;Split and follow vertically
+(defun split-and-follow-vertically ()
+  (interactive)
+  (split-window-right)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+
 ;;Font
 (set-face-attribute 'default nil :font "Courier New-14")
 
@@ -45,6 +176,11 @@
 ;;  (interactive (list my-term-shell)))
 ;;(ad-active 'asni-term)
 ;;(global-set-key (kbd "<s-return>") 'ansi-term)
+
+;;Set org template
+;;(setq org-src-window-setup 'current-window)
+;;(add-to-list 'org-structure-template-alist
+;;	     '("el" "#+BEGIN_SRC emacs-lisp\n?\n"))
 
 ;;Remove YES instead use Y
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -168,7 +304,7 @@
     ("47ec21abaa6642fefec1b7ace282221574c2dd7ef7715c099af5629926eb4fd7" default)))
  '(package-selected-packages
    (quote
-    (magit org ido-vertical-mode beacon which-key use-package))))
+    (company-irony company dashboard rainbow-delimiters sudo-edit hungry-delete org-bullets switch-window rainbow-mode avy magit org ido-vertical-mode beacon which-key use-package))))
 
 ;;Normal tab
 (global-set-key (kbd "<C-tab>") 'tab-to-tab-stop)
